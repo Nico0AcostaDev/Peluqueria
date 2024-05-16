@@ -1,6 +1,6 @@
 ﻿namespace peluqueria
 {
-    partial class Login
+    partial class FrmLogin
     {
         /// <summary>
         /// Required designer variable.
@@ -33,25 +33,28 @@
             aceptar_button = new Button();
             label1 = new Label();
             label2 = new Label();
+            pictureBox2 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // usuario_textbox
             // 
-            usuario_textbox.Location = new Point(46, 63);
+            usuario_textbox.Location = new Point(78, 116);
             usuario_textbox.Name = "usuario_textbox";
             usuario_textbox.Size = new Size(150, 23);
             usuario_textbox.TabIndex = 0;
             // 
             // contraseña_textbox
             // 
-            contraseña_textbox.Location = new Point(46, 118);
+            contraseña_textbox.Location = new Point(78, 171);
             contraseña_textbox.Name = "contraseña_textbox";
+            contraseña_textbox.PasswordChar = '*';
             contraseña_textbox.Size = new Size(150, 23);
             contraseña_textbox.TabIndex = 1;
             // 
             // aceptar_button
             // 
-            aceptar_button.Location = new Point(80, 187);
+            aceptar_button.Location = new Point(112, 240);
             aceptar_button.Name = "aceptar_button";
             aceptar_button.Size = new Size(89, 41);
             aceptar_button.TabIndex = 2;
@@ -62,7 +65,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(46, 45);
+            label1.Location = new Point(78, 98);
             label1.Name = "label1";
             label1.Size = new Size(47, 15);
             label1.TabIndex = 3;
@@ -72,26 +75,38 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(46, 100);
+            label2.Location = new Point(78, 153);
             label2.Name = "label2";
             label2.Size = new Size(67, 15);
             label2.TabIndex = 4;
             label2.Text = "Contraseña";
             // 
-            // Login
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.LoginFoto;
+            pictureBox2.Location = new Point(-237, -32);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(608, 501);
+            pictureBox2.TabIndex = 6;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
+            // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(242, 276);
+            ClientSize = new Size(318, 356);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(aceptar_button);
             Controls.Add(contraseña_textbox);
             Controls.Add(usuario_textbox);
-            Name = "Login";
-            Text = "Login";
+            Controls.Add(pictureBox2);
+            Name = "FrmLogin";
+            Text = "Peluqueria";
             Load += Login_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -103,5 +118,6 @@
         private Button aceptar_button;
         private Label label1;
         private Label label2;
+        private PictureBox pictureBox2;
     }
 }
