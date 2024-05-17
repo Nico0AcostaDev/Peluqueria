@@ -34,6 +34,8 @@ namespace peluqueria.Models
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<sp_ObtenerProductosResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<sp_ObtenerServiciosResult>().HasNoKey().ToView(null);
         }
     }
 
@@ -46,7 +48,47 @@ namespace peluqueria.Models
             _context = context;
         }
 
-        public virtual async Task<int> ValidarUsuarioAsync(string nombre_usuario, string contraseña, OutputParameter<int?> existe, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_ObtenerProductosResult>> sp_ObtenerProductosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<sp_ObtenerProductosResult>("EXEC @returnValue = [dbo].[sp_ObtenerProductos]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<sp_ObtenerServiciosResult>> sp_ObtenerServiciosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<sp_ObtenerServiciosResult>("EXEC @returnValue = [dbo].[sp_ObtenerServicios]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> sp_ValidarUsuarioAsync(string nombre_usuario, string contraseña, OutputParameter<int?> existe, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterexiste = new SqlParameter
             {
@@ -81,7 +123,7 @@ namespace peluqueria.Models
                 parameterexiste,
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[ValidarUsuario] @nombre_usuario, @contraseña, @existe OUTPUT", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[sp_ValidarUsuario] @nombre_usuario, @contraseña, @existe OUTPUT", sqlParameters, cancellationToken);
 
             existe.SetValue(parameterexiste.Value);
             returnValue?.SetValue(parameterreturnValue.Value);

@@ -26,7 +26,7 @@ namespace peluqueria
             if (validacionOk == true)
             {
                 OutputParameter<int?> response = new OutputParameter<int?>();
-                await _dbcontext.Procedures.ValidarUsuarioAsync(user, pass, response);
+                await _dbcontext.Procedures.sp_ValidarUsuarioAsync(user, pass, response);
 
                 if (response.Value == 0)
                 {
@@ -35,7 +35,7 @@ namespace peluqueria
                 else
                 {
                     this.Hide();
-                    FrmMain menu = new FrmMain();
+                    FrmMain menu = new FrmMain(_dbcontext);
                     menu.ShowDialog();
 
                 }
