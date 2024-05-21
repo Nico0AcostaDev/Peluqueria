@@ -98,7 +98,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(773, 495);
+            button1.Location = new Point(841, 495);
             button1.Name = "button1";
             button1.Size = new Size(127, 39);
             button1.TabIndex = 5;
@@ -108,7 +108,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(634, 462);
+            label3.Location = new Point(634, 465);
             label3.Name = "label3";
             label3.Size = new Size(77, 15);
             label3.TabIndex = 6;
@@ -126,7 +126,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(616, 495);
+            button2.Location = new Point(634, 495);
             button2.Name = "button2";
             button2.Size = new Size(127, 39);
             button2.TabIndex = 8;
@@ -139,7 +139,7 @@
             dgvProductoCarrito.Location = new Point(634, 86);
             dgvProductoCarrito.Name = "dgvProductoCarrito";
             dgvProductoCarrito.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductoCarrito.Size = new Size(270, 174);
+            dgvProductoCarrito.Size = new Size(334, 174);
             dgvProductoCarrito.TabIndex = 9;
             // 
             // dgvServicioCarrito
@@ -148,7 +148,7 @@
             dgvServicioCarrito.Location = new Point(634, 303);
             dgvServicioCarrito.Name = "dgvServicioCarrito";
             dgvServicioCarrito.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvServicioCarrito.Size = new Size(271, 139);
+            dgvServicioCarrito.Size = new Size(334, 139);
             dgvServicioCarrito.TabIndex = 10;
             // 
             // button3
@@ -179,12 +179,13 @@
             button5.TabIndex = 13;
             button5.Text = "Añadir Servicio";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // FrmVentaServicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(912, 546);
+            ClientSize = new Size(1016, 552);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
