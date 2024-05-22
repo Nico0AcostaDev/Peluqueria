@@ -27,9 +27,10 @@ namespace peluqueria
             dtProductos.Columns.Add("Precio", typeof(decimal));
             dtProductos.Columns.Add("Stock", typeof(int));
 
-            dtServiciosCarrito.Columns.Add("Nombre Producto", typeof(string));
+            dtServiciosCarrito.Columns.Add("Nombre Servicios", typeof(string));
             dtServiciosCarrito.Columns.Add("Descripcion", typeof(string));
-            dtServiciosCarrito.Columns.Add("Precio", typeof(decimal));  
+            dtServiciosCarrito.Columns.Add("Cantidad", typeof(string));
+            dtServiciosCarrito.Columns.Add("Precio", typeof(decimal));
 
             dtProductosCarrito.Columns.Add("Nombre Producto", typeof(string));
             dtProductosCarrito.Columns.Add("Descripcion", typeof(string));
@@ -61,7 +62,7 @@ namespace peluqueria
                 dtServicios.Rows.Add(servic.nombre_servicio, servic.descripcion, servic.precio);
             }
 
-        } 
+        }
         private void button4_Click(object sender, EventArgs e)
         {
             //PRODUCTO CARRITO 
@@ -135,7 +136,7 @@ namespace peluqueria
                 servicioExistente.Cantidad += 1;
                 servicioExistente.Precio += precio;
 
-                foreach (DataRow dr in dtProductosCarrito.Rows)
+                foreach (DataRow dr in dtServiciosCarrito.Rows)
                 {
                     if (dr["Nombre Servicios"].ToString() == nombre_servicio)
                     {
@@ -157,6 +158,16 @@ namespace peluqueria
 
                 dtServiciosCarrito.Rows.Add(servicio.NombreServicio, servicio.Descripcion, servicio.Cantidad, servicio.Precio);
             }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

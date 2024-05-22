@@ -10,12 +10,7 @@ namespace peluqueria
         {
             InitializeComponent();
             _dbcontext = dbcontext;
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        } 
         private async void button1_Click(object sender, EventArgs e)
         {
             string user = usuario_textbox.Text;
@@ -46,8 +41,11 @@ namespace peluqueria
         {
 
         }
-
         private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

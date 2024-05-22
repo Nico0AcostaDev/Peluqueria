@@ -7,7 +7,6 @@ namespace peluqueria.Models
 {
     public partial class sp_ObtenerProductosResult
     {
-        public int? categoria_id { get; set; }
         public string descripcion { get; set; }
         public int id_producto { get; set; }
         public string nombre_producto { get; set; }

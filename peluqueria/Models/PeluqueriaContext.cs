@@ -13,18 +13,18 @@ public partial class PeluqueriaContext : DbContext
         : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        OnModelCreatingGeneratedProcedures(modelBuilder);
+        OnModelCreatingPartial(modelBuilder);
+    }
     public static PeluqueriaContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<PeluqueriaContext>();
         optionsBuilder.UseSqlServer(Connect.ConnectionString());
 
         return new PeluqueriaContext(optionsBuilder.Options);
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        OnModelCreatingGeneratedProcedures(modelBuilder);
-        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

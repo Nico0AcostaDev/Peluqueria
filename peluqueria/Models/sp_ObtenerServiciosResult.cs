@@ -7,7 +7,6 @@ namespace peluqueria.Models
 {
     public partial class sp_ObtenerServiciosResult
     {
-        public int? categoria_id { get; set; }
         public string descripcion { get; set; }
         public string nombre_servicio { get; set; }
         [Column("precio", TypeName = "decimal(10,2)")]
