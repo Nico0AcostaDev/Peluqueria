@@ -12,6 +12,8 @@ namespace peluqueria.Models
 {
     public partial interface IPeluqueriaContextProcedures
     {
+        Task<List<sp_obtener_clientesResult>> sp_obtener_clientesAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_obtener_empleadosResult>> sp_obtener_empleadosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_ObtenerProductosResult>> sp_ObtenerProductosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_ObtenerServiciosResult>> sp_ObtenerServiciosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<int> sp_ValidarUsuarioAsync(string nombre_usuario, string contraseña, OutputParameter<int?> existe, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);

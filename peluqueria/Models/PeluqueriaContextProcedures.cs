@@ -34,6 +34,8 @@ namespace peluqueria.Models
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<sp_obtener_clientesResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<sp_obtener_empleadosResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<sp_ObtenerProductosResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<sp_ObtenerServiciosResult>().HasNoKey().ToView(null);
         }
@@ -46,6 +48,46 @@ namespace peluqueria.Models
         public PeluqueriaContextProcedures(PeluqueriaContext context)
         {
             _context = context;
+        }
+
+        public virtual async Task<List<sp_obtener_clientesResult>> sp_obtener_clientesAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<sp_obtener_clientesResult>("EXEC @returnValue = [dbo].[sp_obtener_clientes]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<sp_obtener_empleadosResult>> sp_obtener_empleadosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<sp_obtener_empleadosResult>("EXEC @returnValue = [dbo].[sp_obtener_empleados]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
         }
 
         public virtual async Task<List<sp_ObtenerProductosResult>> sp_ObtenerProductosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)

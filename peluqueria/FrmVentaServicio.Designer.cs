@@ -33,7 +33,7 @@
             label1 = new Label();
             dgvServicios = new DataGridView();
             label2 = new Label();
-            button1 = new Button();
+            btnAceptar = new Button();
             label3 = new Label();
             label4 = new Label();
             button2 = new Button();
@@ -43,23 +43,27 @@
             button5 = new Button();
             label5 = new Label();
             label7 = new Label();
-            dataGridView1 = new DataGridView();
+            dgvClientes = new DataGridView();
             label8 = new Label();
-            dataGridView2 = new DataGridView();
+            dgvEmpleados = new DataGridView();
             label9 = new Label();
             pictureBox1 = new PictureBox();
+            labelCliente = new Label();
+            labelEmpleado = new Label();
+            labelTotal = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvServicios).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductoCarrito).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvServicioCarrito).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEmpleados).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // dgvProductos
             // 
             dgvProductos.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvProductos.BorderStyle = BorderStyle.Fixed3D;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Location = new Point(7, 32);
             dgvProductos.Name = "dgvProductos";
@@ -88,6 +92,7 @@
             // dgvServicios
             // 
             dgvServicios.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvServicios.BorderStyle = BorderStyle.Fixed3D;
             dgvServicios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvServicios.Location = new Point(7, 298);
             dgvServicios.Name = "dgvServicios";
@@ -105,14 +110,15 @@
             label2.Text = "Productos";
             label2.Click += label2_Click;
             // 
-            // button1
+            // btnAceptar
             // 
-            button1.Location = new Point(1022, 495);
-            button1.Name = "button1";
-            button1.Size = new Size(127, 39);
-            button1.TabIndex = 5;
-            button1.Text = "Aceptar";
-            button1.UseVisualStyleBackColor = true;
+            btnAceptar.Location = new Point(1022, 495);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(127, 39);
+            btnAceptar.TabIndex = 5;
+            btnAceptar.Text = "Aceptar";
+            btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // label3
             // 
@@ -199,15 +205,18 @@
             label7.TabIndex = 16;
             label7.Text = "Empleado:";
             // 
-            // dataGridView1
+            // dgvClientes
             // 
-            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(517, 32);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(248, 219);
-            dataGridView1.TabIndex = 17;
+            dgvClientes.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvClientes.BorderStyle = BorderStyle.Fixed3D;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Location = new Point(517, 32);
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvClientes.Size = new Size(248, 219);
+            dgvClientes.TabIndex = 17;
+            dgvClientes.CellClick += dataGridView1_CellContentClick;
+            dgvClientes.CellContentClick += dataGridView1_CellContentClick;
             // 
             // label8
             // 
@@ -218,16 +227,18 @@
             label8.TabIndex = 18;
             label8.Text = "Clientes";
             // 
-            // dataGridView2
+            // dgvEmpleados
             // 
-            dataGridView2.BackgroundColor = SystemColors.ButtonHighlight;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(517, 298);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView2.Size = new Size(248, 233);
-            dataGridView2.TabIndex = 19;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
+            dgvEmpleados.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvEmpleados.BorderStyle = BorderStyle.Fixed3D;
+            dgvEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEmpleados.Location = new Point(517, 298);
+            dgvEmpleados.Name = "dgvEmpleados";
+            dgvEmpleados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvEmpleados.Size = new Size(248, 233);
+            dgvEmpleados.TabIndex = 19;
+            dgvEmpleados.CellClick += dataGridView2_CellContentClick;
+            dgvEmpleados.CellContentClick += dataGridView2_CellContentClick;
             // 
             // label9
             // 
@@ -247,15 +258,42 @@
             pictureBox1.TabIndex = 21;
             pictureBox1.TabStop = false;
             // 
+            // labelCliente
+            // 
+            labelCliente.AutoSize = true;
+            labelCliente.Location = new Point(879, 414);
+            labelCliente.Name = "labelCliente";
+            labelCliente.Size = new Size(0, 15);
+            labelCliente.TabIndex = 22;
+            // 
+            // labelEmpleado
+            // 
+            labelEmpleado.AutoSize = true;
+            labelEmpleado.Location = new Point(884, 437);
+            labelEmpleado.Name = "labelEmpleado";
+            labelEmpleado.Size = new Size(0, 15);
+            labelEmpleado.TabIndex = 23;
+            // 
+            // labelTotal
+            // 
+            labelTotal.AutoSize = true;
+            labelTotal.Location = new Point(899, 465);
+            labelTotal.Name = "labelTotal";
+            labelTotal.Size = new Size(0, 15);
+            labelTotal.TabIndex = 24;
+            // 
             // FrmVentaServicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1229, 555);
+            Controls.Add(labelTotal);
+            Controls.Add(labelEmpleado);
+            Controls.Add(labelCliente);
             Controls.Add(label9);
-            Controls.Add(dataGridView2);
+            Controls.Add(dgvEmpleados);
             Controls.Add(label8);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvClientes);
             Controls.Add(label7);
             Controls.Add(label5);
             Controls.Add(button5);
@@ -265,7 +303,7 @@
             Controls.Add(button2);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(button1);
+            Controls.Add(btnAceptar);
             Controls.Add(label2);
             Controls.Add(dgvServicios);
             Controls.Add(label1);
@@ -279,8 +317,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvServicios).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductoCarrito).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvServicioCarrito).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEmpleados).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -293,7 +331,7 @@
         private Label label1;
         private DataGridView dgvServicios;
         private Label label2;
-        private Button button1;
+        private Button btnAceptar;
         private Label label3;
         private Label label4;
         private Button button2;
@@ -303,10 +341,13 @@
         private Button button5;
         private Label label5;
         private Label label7;
-        private DataGridView dataGridView1;
+        private DataGridView dgvClientes;
         private Label label8;
-        private DataGridView dataGridView2;
+        private DataGridView dgvEmpleados;
         private Label label9;
         private PictureBox pictureBox1;
+        private Label labelCliente;
+        private Label labelEmpleado;
+        private Label labelTotal;
     }
 }
