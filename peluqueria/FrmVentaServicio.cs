@@ -124,6 +124,7 @@ namespace peluqueria
             string nombre_servicio = row.Cells["Nombre Servicios"].Value.ToString();
             string descripcion = row.Cells["Descripcion"].Value.ToString();
             var precio = Convert.ToDecimal(row.Cells["Precio"].Value);
+            var idServicio = Convert.ToInt32(row.Cells["Id_Servicios"].Value);
 
             //verificamos si existe el producto en el carrito...
             ServicioCarrito servicioExistente = servCarrito.FirstOrDefault(x => x.NombreServicio == nombre_servicio);
@@ -150,6 +151,7 @@ namespace peluqueria
                 servicio.Descripcion = descripcion;
                 servicio.Precio = precio;
                 servicio.Cantidad = 1;
+                servicio.idServicios = idServicio;
                 venta.Total += servicio.Precio;
                 servCarrito.Add(servicio);
 
@@ -186,6 +188,7 @@ namespace peluqueria
             string nombre_producto = row.Cells["Nombre Producto"].Value.ToString();
             string descripcion = row.Cells["Descripcion"].Value.ToString();
             var precio = Convert.ToDecimal(row.Cells["Precio"].Value);
+            var idproducto = Convert.ToInt32(row.Cells["Id_Productos"].Value);
 
             //verificamos si existe el producto en el carrito...
             ProductoCarrito productoExistente = prodCarrito.FirstOrDefault(x => x.NombreProducto == nombre_producto);
@@ -212,7 +215,7 @@ namespace peluqueria
                 producto.Descripcion = descripcion;
                 producto.Precio = precio;
                 producto.Cantidad = 1;
-                
+                producto.IdProducto = idproducto;
                 venta.Total += producto.Precio;
 
                 prodCarrito.Add(producto);
@@ -239,6 +242,29 @@ namespace peluqueria
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            venta.DetalleProductos = new List<DetalleVentaProducto>();
+            venta.DetalleServicios= new List<DetalleVentaServicio>();
+
+            foreach (var pd in prodCarrito)
+            {
+                DetalleVentaProducto det = new DetalleVentaProducto();
+                det.Cantidad = pd.Cantidad;
+                det.MontoProducto = pd.Precio;
+                det.IdProducto = pd.IdProducto;
+                
+                venta.DetalleProductos.Add(det);
+            }
+
+            foreach (var sv in servCarrito)
+            {
+                DetalleVentaServicio ser = new DetalleVentaServicio();
+                ser.MontoServicio = sv.Precio;
+                ser.IdServicio = sv.idServicios;
+
+                venta.DetalleServicios.Add(ser);
+            }
+
+
             Console.WriteLine(venta);//segui aca
         }
     }
