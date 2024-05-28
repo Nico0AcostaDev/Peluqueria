@@ -18,8 +18,6 @@ namespace peluqueria
         private Cliente cliente = new Cliente();
         private Empleados empleados = new Empleados();
         private Venta venta = new Venta();
-        private List<DetalleVentaServicio> DetalleServicios = new List<DetalleVentaServicio>();
-        private List<DetalleVentaProducto> DetalleProductos = new List<DetalleVentaProducto>();
         public FrmVentaServicio(PeluqueriaContext dbcontext)
         {
             InitializeComponent();
@@ -259,13 +257,28 @@ namespace peluqueria
             {
                 DetalleVentaServicio ser = new DetalleVentaServicio();
                 ser.MontoServicio = sv.Precio;
+                ser.Cantidad = sv.Cantidad;
                 ser.IdServicio = sv.idServicios;
 
                 venta.DetalleServicios.Add(ser);
             }
 
+            OutputParameter<int?> id_venta = new OutputParameter<int?>();
+            _dbcontext.Procedures.sp_insertar_ventaAsync(venta.IdCliente,venta.IdEmpleado,venta.Total,id_venta);
 
-            Console.WriteLine(venta);//segui aca
+
+            foreach (var dts in venta.DetalleServicios)
+            {
+                _dbcontext.Procedures.sp_insertar_detalles_ventasAsync();
+            }
+
+            foreach (var dtp in venta.DetalleProductos)
+            {
+
+            }
+
+            //crear sp descontando stock 
+            Console.WriteLine(venta);
         }
     }
 }
