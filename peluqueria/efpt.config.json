@@ -16,7 +16,11 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[sp_insertar_detalles_ventas]",
+         "Name": "[dbo].[sp_insertar_venta_producto]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[sp_insertar_venta_servicio]",
          "ObjectType": 1
       },
       {

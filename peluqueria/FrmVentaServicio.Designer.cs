@@ -34,7 +34,6 @@
             dgvServicios = new DataGridView();
             label2 = new Label();
             btnAceptar = new Button();
-            label3 = new Label();
             label4 = new Label();
             button2 = new Button();
             dgvProductoCarrito = new DataGridView();
@@ -120,15 +119,6 @@
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(815, 465);
-            label3.Name = "label3";
-            label3.Size = new Size(77, 15);
-            label3.TabIndex = 6;
-            label3.Text = "Total a pagar:";
-            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -199,7 +189,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(815, 438);
+            label7.Location = new Point(813, 452);
             label7.Name = "label7";
             label7.Size = new Size(63, 15);
             label7.TabIndex = 16;
@@ -302,7 +292,6 @@
             Controls.Add(dgvProductoCarrito);
             Controls.Add(button2);
             Controls.Add(label4);
-            Controls.Add(label3);
             Controls.Add(btnAceptar);
             Controls.Add(label2);
             Controls.Add(dgvServicios);
@@ -332,7 +321,6 @@
         private DataGridView dgvServicios;
         private Label label2;
         private Button btnAceptar;
-        private Label label3;
         private Label label4;
         private Button button2;
         private DataGridView dgvProductoCarrito;

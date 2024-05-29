@@ -26,5 +26,6 @@ public partial class PeluqueriaContext : DbContext
 
         return new PeluqueriaContext(optionsBuilder.Options);
     }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

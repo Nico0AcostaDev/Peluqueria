@@ -156,7 +156,6 @@ namespace peluqueria
                 dtServiciosCarrito.Rows.Add(servicio.NombreServicio, servicio.Descripcion, servicio.Cantidad, servicio.Precio);
             }
         }
-
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = dgvEmpleados.SelectedRows[0];
@@ -167,7 +166,6 @@ namespace peluqueria
             labelEmpleado.Text = empleados.Nombre + " " + empleados.Apellido;
             venta.IdEmpleado = empleados.IdEmpleado;
         }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = dgvClientes.SelectedRows[0];
@@ -238,47 +236,87 @@ namespace peluqueria
 
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
-            venta.DetalleProductos = new List<DetalleVentaProducto>();
-            venta.DetalleServicios= new List<DetalleVentaServicio>();
 
-            foreach (var pd in prodCarrito)
-            {
-                DetalleVentaProducto det = new DetalleVentaProducto();
-                det.Cantidad = pd.Cantidad;
-                det.MontoProducto = pd.Precio;
-                det.IdProducto = pd.IdProducto;
-                
-                venta.DetalleProductos.Add(det);
-            }
+            bool valido = validarCompra(venta);
 
-            foreach (var sv in servCarrito)
-            {
-                DetalleVentaServicio ser = new DetalleVentaServicio();
-                ser.MontoServicio = sv.Precio;
-                ser.Cantidad = sv.Cantidad;
-                ser.IdServicio = sv.idServicios;
+            if (!valido) return;
 
-                venta.DetalleServicios.Add(ser);
-            }
+            DialogResult result = MessageBox.Show(
+                $"El total a abonar de la compra es ${venta.Total} pesos",
+                "Confirmación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
-            OutputParameter<int?> id_venta = new OutputParameter<int?>();
-            _dbcontext.Procedures.sp_insertar_ventaAsync(venta.IdCliente,venta.IdEmpleado,venta.Total,id_venta);
-
-
-            foreach (var dts in venta.DetalleServicios)
-            {
-                _dbcontext.Procedures.sp_insertar_detalles_ventasAsync();
-            }
-
-            foreach (var dtp in venta.DetalleProductos)
+            if (result == DialogResult.Yes)
             {
 
+                venta.DetalleProductos = new List<DetalleVentaProducto>();
+                venta.DetalleServicios = new List<DetalleVentaServicio>();
+
+                foreach (var pd in prodCarrito)
+                {
+                    DetalleVentaProducto det = new DetalleVentaProducto();
+                    det.Cantidad = pd.Cantidad;
+                    det.MontoProducto = pd.Precio;
+                    det.IdProducto = pd.IdProducto;
+
+                    venta.DetalleProductos.Add(det);
+                }
+
+                foreach (var sv in servCarrito)
+                {
+                    DetalleVentaServicio ser = new DetalleVentaServicio();
+                    ser.MontoServicio = sv.Precio;
+                    ser.Cantidad = sv.Cantidad;
+                    ser.IdServicio = sv.idServicios;
+
+                    venta.DetalleServicios.Add(ser);
+                }
+
+                OutputParameter<int?> id_venta = new OutputParameter<int?>();
+                await _dbcontext.Procedures.sp_insertar_ventaAsync(venta.IdCliente, venta.IdEmpleado, venta.Total, id_venta);
+
+                foreach (var dts in venta.DetalleServicios)
+                {
+                    _dbcontext.Procedures.sp_insertar_venta_servicioAsync(id_venta.Value, dts.IdServicio, dts.Cantidad, dts.MontoServicio);
+                }
+
+                foreach (var dtp in venta.DetalleProductos)
+                {
+                    _dbcontext.Procedures.sp_insertar_venta_productoAsync(id_venta.Value, dtp.IdProducto, dtp.Cantidad, dtp.MontoProducto);
+                }
+
+                MessageBox.Show($"Venta / Servicio realizada Correctamente","Atencion!",MessageBoxButtons.OK);
+
+                this.Close();
+
+            }
+        } 
+        private static bool validarCompra(Venta venta)
+        {
+            bool valida = true;
+            if (venta.Total == 0)
+            {
+                MessageBox.Show($"No hay ningun producto o servicio a cobrar...", "Atencion!", MessageBoxButtons.OK);
+                valida =  false;
+            }
+           
+            if (venta.IdCliente == 0)
+            {
+                MessageBox.Show($"No hay cliente asociado para esta venta / servicio", "Atencion!", MessageBoxButtons.OK);
+                valida = false;
             }
 
-            //crear sp descontando stock 
-            Console.WriteLine(venta);
+            if (venta.IdEmpleado == 0)
+            {
+                MessageBox.Show($"No hay empleado asociado", "Atencion!", MessageBoxButtons.OK);
+                valida = false;
+            } 
+
+            return valida;
         }
     }
 }
