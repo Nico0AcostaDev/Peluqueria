@@ -132,3 +132,4 @@ C:\Users\vamoooooo\Desktop\peluqueria\peluqueria\obj\Debug\net8.0-windows\refint
 C:\Users\vamoooooo\Desktop\peluqueria\peluqueria\obj\Debug\net8.0-windows\peluqueria.pdb
 C:\Users\vamoooooo\Desktop\peluqueria\peluqueria\obj\Debug\net8.0-windows\peluqueria.genruntimeconfig.cache
 C:\Users\vamoooooo\Desktop\peluqueria\peluqueria\obj\Debug\net8.0-windows\ref\peluqueria.dll
+C:\Users\vamoooooo\Desktop\peluqueria\peluqueria\obj\Debug\net8.0-windows\peluqueria.FrmCompra.resources

@@ -31,12 +31,14 @@
             menuStrip1 = new MenuStrip();
             ventaServicioToolStripMenuItem = new ToolStripMenuItem();
             generarServicioVentaToolStripMenuItem = new ToolStripMenuItem();
+            comprasToolStripMenuItem = new ToolStripMenuItem();
+            registrarCompraToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { ventaServicioToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ventaServicioToolStripMenuItem, comprasToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 24);
@@ -57,6 +59,19 @@
             generarServicioVentaToolStripMenuItem.Text = "Generar Servicio Venta";
             generarServicioVentaToolStripMenuItem.Click += generarServicioVentaToolStripMenuItem_Click;
             // 
+            // comprasToolStripMenuItem
+            // 
+            comprasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { registrarCompraToolStripMenuItem });
+            comprasToolStripMenuItem.Name = "comprasToolStripMenuItem";
+            comprasToolStripMenuItem.Size = new Size(67, 20);
+            comprasToolStripMenuItem.Text = "Compras";
+            // 
+            // registrarCompraToolStripMenuItem
+            // 
+            registrarCompraToolStripMenuItem.Name = "registrarCompraToolStripMenuItem";
+            registrarCompraToolStripMenuItem.Size = new Size(180, 22);
+            registrarCompraToolStripMenuItem.Text = "Registrar Compra";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -66,6 +81,7 @@
             MainMenuStrip = menuStrip1;
             Name = "FrmMain";
             Text = "Main";
+            Load += FrmMain_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -77,5 +93,7 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem ventaServicioToolStripMenuItem;
         private ToolStripMenuItem generarServicioVentaToolStripMenuItem;
+        private ToolStripMenuItem comprasToolStripMenuItem;
+        private ToolStripMenuItem registrarCompraToolStripMenuItem;
     }
 }

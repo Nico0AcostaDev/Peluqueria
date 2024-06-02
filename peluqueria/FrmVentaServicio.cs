@@ -281,12 +281,12 @@ namespace peluqueria
 
                 foreach (var dts in venta.DetalleServicios)
                 {
-                    _dbcontext.Procedures.sp_insertar_venta_servicioAsync(id_venta.Value, dts.IdServicio, dts.Cantidad, dts.MontoServicio);
+                    await _dbcontext.Procedures.sp_insertar_venta_servicioAsync(id_venta.Value, dts.IdServicio, dts.Cantidad, dts.MontoServicio);
                 }
 
                 foreach (var dtp in venta.DetalleProductos)
                 {
-                    _dbcontext.Procedures.sp_insertar_venta_productoAsync(id_venta.Value, dtp.IdProducto, dtp.Cantidad, dtp.MontoProducto);
+                    await _dbcontext.Procedures.sp_insertar_venta_productoAsync(id_venta.Value, dtp.IdProducto, dtp.Cantidad, dtp.MontoProducto);
                 }
 
                 MessageBox.Show($"Venta / Servicio realizada Correctamente","Atencion!",MessageBoxButtons.OK);
