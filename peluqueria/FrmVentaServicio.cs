@@ -13,8 +13,8 @@ namespace peluqueria
         private DataTable dtServiciosCarrito = new DataTable();
         private DataTable dtClientes = new DataTable();
         private DataTable dtEmpleados = new DataTable();
-        private List<ProductoCarrito> prodCarrito = new List<ProductoCarrito>();
-        private List<ServicioCarrito> servCarrito = new List<ServicioCarrito>();
+        private List<Producto> prodCarrito = new List<Producto>();
+        private List<Servicio> servCarrito = new List<Servicio>();
         private Cliente cliente = new Cliente();
         private Empleados empleados = new Empleados();
         private Venta venta = new Venta();
@@ -125,7 +125,7 @@ namespace peluqueria
             var idServicio = Convert.ToInt32(row.Cells["Id_Servicios"].Value);
 
             //verificamos si existe el producto en el carrito...
-            ServicioCarrito servicioExistente = servCarrito.FirstOrDefault(x => x.NombreServicio == nombre_servicio);
+            Servicio servicioExistente = servCarrito.FirstOrDefault(x => x.NombreServicio == nombre_servicio);
 
             if (servicioExistente != null)
             {
@@ -144,7 +144,7 @@ namespace peluqueria
             }
             else
             {
-                ServicioCarrito servicio = new ServicioCarrito();
+                Servicio servicio = new Servicio();
                 servicio.NombreServicio = nombre_servicio;
                 servicio.Descripcion = descripcion;
                 servicio.Precio = precio;
@@ -187,7 +187,7 @@ namespace peluqueria
             var idproducto = Convert.ToInt32(row.Cells["Id_Productos"].Value);
 
             //verificamos si existe el producto en el carrito...
-            ProductoCarrito productoExistente = prodCarrito.FirstOrDefault(x => x.NombreProducto == nombre_producto);
+            Producto productoExistente = prodCarrito.FirstOrDefault(x => x.NombreProducto == nombre_producto);
 
             if (productoExistente != null)
             {
@@ -206,7 +206,7 @@ namespace peluqueria
             }
             else
             {
-                ProductoCarrito producto = new ProductoCarrito();
+                Producto producto = new Producto();
                 producto.NombreProducto = nombre_producto;
                 producto.Descripcion = descripcion;
                 producto.Precio = precio;

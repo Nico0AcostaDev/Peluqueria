@@ -15,5 +15,6 @@ namespace peluqueria.Dto
         public string Direccion { get; set; }
         public string Email { get; set; }
         public DateTime FechaContratacion { get; set; }
+        public string cod_estado { get; set; }
     }
 }

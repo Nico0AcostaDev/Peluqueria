@@ -1,0 +1,494 @@
+USE Peluqueria;
+
+-------------------------------- LOGIN / USUARIO ----------------------------
+CREATE TABLE usuarios (
+    id_usuario INT PRIMARY KEY IDENTITY,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    contraseña VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    fecha_registro DATETIME NOT NULL,	
+    ult_logeo_fecha DATETIME,
+    id_rol INT NOT NULL,
+	cod_estado VARCHAR(1)
+);
+
+CREATE TABLE roles (
+    id_rol INT PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL 
+); 
+------------------------------ PRODUCTOS SERVICIOS ------------------------------
+
+CREATE TABLE productos (
+    id_producto INT PRIMARY KEY IDENTITY,
+    nombre_producto VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL,
+	cod_estado VARCHAR(1)
+);
+
+CREATE TABLE servicios (
+    servicio_id INT PRIMARY KEY IDENTITY,
+    nombre_servicio VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(50) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+	cod_estado VARCHAR(1)
+);
+---------------------------------- CLIENTES -------------------------------------------------------
+
+CREATE TABLE clientes (
+    id_cliente INT PRIMARY KEY IDENTITY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15),
+    direccion VARCHAR(50),
+    email VARCHAR(50),
+    fecha_nacimiento DATE,
+    info_relevante VARCHAR(255),
+    fecha_registro DATETIME,
+	cod_estado VARCHAR(1)
+);
+----------------------------------- EMPLEADOS ----------------------------------------------------
+
+CREATE TABLE empleados (
+    id_empleado INT PRIMARY KEY IDENTITY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15),
+    direccion VARCHAR(100),
+    email VARCHAR(50),
+    fecha_contratacion DATE,
+	cod_estado VARCHAR(1)
+);
+------------------------------- VENTA -----------------------------------------------
+CREATE TABLE ventas (
+    id_venta INT PRIMARY KEY IDENTITY,
+    id_cliente INT,
+    fecha_venta DATETIME,
+    id_empleado INT,
+    total DECIMAL(10, 2) NOT NULL 
+);
+
+CREATE TABLE detalle_venta_servicios (
+    id_detalle_servicio INT PRIMARY KEY,
+    id_venta INT,
+    id_servicio INT,
+	cantidad INT NOT NULL,
+    monto_servicio DECIMAL(10, 2) NOT NULL 
+);
+
+CREATE TABLE detalle_venta_productos (
+    id_detalle_producto INT PRIMARY KEY,
+    id_venta INT,
+    id_producto INT,
+    cantidad INT NOT NULL,
+    monto_producto DECIMAL(10, 2) NOT NULL 
+);
+--------------------------------------ASISTENCIA EMPLEADOS--------------------------------------------
+CREATE TABLE asistencia_empleados (
+    id_asistencia INT PRIMARY KEY IDENTITY,
+    id_empleado INT,
+    dia_asistencia DATE,
+	monto_pago INT,
+	pago 
+);
+-------------------------------------------- TURNOS ------------------------------------------------------
+CREATE TABLE turnos (
+    id_turno INT PRIMARY KEY,
+    fecha DATE,
+    hora_turno TIME,
+    id_cliente INT,
+    servicio VARCHAR(255),
+    empleado_asignado INT
+);
+------------------------------------------ PROVEEDORES ---------------------------------------------------------
+CREATE TABLE proveedores (
+    id_proveedor INT PRIMARY KEY,
+    razon_social VARCHAR(150), 
+    telefono VARCHAR(20),
+	cuit_cuil varchar(20),
+    correo_electronico VARCHAR(50),
+    direccion VARCHAR(50),
+	cod_estado VARCHAR(1)
+);
+
+CREATE TABLE compras (
+    compra_id INT PRIMARY KEY,
+    proveedor_id INT,
+    fecha_compra DATE,
+    total_compra DECIMAL(10, 2)
+);
+
+CREATE TABLE productos_comprados (
+    producto_compra_id INT PRIMARY KEY,
+    compra_id INT,
+    producto_id INT,
+    cantidad INT,
+    precio_unitario DECIMAL(10, 2),
+    subtotal DECIMAL(10, 2)
+); 
+--------------------------------RELACIONES------------------------------------
+ALTER TABLE usuarios
+ADD CONSTRAINT fk_usuarios_roles
+FOREIGN KEY (id_rol)
+REFERENCES roles (id_rol); 
+
+ALTER TABLE detalle_venta_servicios
+ADD CONSTRAINT fk_detalle_venta_servicios_venta
+FOREIGN KEY (id_venta) REFERENCES ventas(id_venta);
+
+ALTER TABLE detalle_venta_servicios
+ADD CONSTRAINT fk_detalle_venta_servicios_servicio
+FOREIGN KEY (id_servicio) REFERENCES servicios(servicio_id);
+
+ALTER TABLE detalle_venta_productos
+ADD CONSTRAINT fk_detalle_venta_productos_venta
+FOREIGN KEY (id_venta) REFERENCES ventas(id_venta);
+
+ALTER TABLE detalle_venta_productos
+ADD CONSTRAINT fk_detalle_venta_productos_producto
+FOREIGN KEY (id_producto) REFERENCES productos(id_producto);
+
+ALTER TABLE ventas
+ADD CONSTRAINT fk_ventas_cliente
+FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente); 
+
+ALTER TABLE ventas
+ADD CONSTRAINT fk_ventas_empleados
+FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado);
+
+ALTER TABLE asistencia_empleados
+ADD CONSTRAINT fk_asistencia_empleados_empleados
+FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado);
+
+ALTER TABLE turnos
+ADD CONSTRAINT fk_turnos_clientes
+FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente);
+
+ALTER TABLE turnos
+ADD CONSTRAINT fk_turnos_empleados
+FOREIGN KEY (empleado_asignado) REFERENCES empleados(id_empleado);  
+
+ALTER TABLE compras
+ADD CONSTRAINT fk_proveedor_compras
+FOREIGN KEY (proveedor_id) REFERENCES proveedores(id_proveedor);
+
+ALTER TABLE productos_comprados
+ADD CONSTRAINT fk_compra_productos_comprados
+FOREIGN KEY (compra_id) REFERENCES compras(compra_id);
+
+ALTER TABLE productos_comprados
+ADD CONSTRAINT fk_producto
+FOREIGN KEY (producto_id) REFERENCES productos(id_producto);
+
+
+--------------------------------INSERTS ------------------------------------------
+ -- Insertar clientes
+INSERT INTO clientes (nombre, apellido, telefono, direccion, email, fecha_nacimiento, info_relevante, fecha_registro, cod_estado)
+VALUES
+('Juan', 'Perez', '555-1234', 'Calle Falsa 123', 'juan.perez@example.com', '1980-05-15', 'Cliente frecuente', GETDATE(), 'A'),
+('Maria', 'Gonzalez', '555-5678', 'Avenida Siempre Viva 742', 'maria.gonzalez@example.com', '1992-08-21', 'Prefiere contacto por email', GETDATE(), 'A'),
+('Carlos', 'Rodriguez', '555-9101', 'Boulevard del Sol 456', 'carlos.rodriguez@example.com', '1985-03-10', 'Tiene cuenta corporativa', GETDATE(), 'A'),
+('Ana', 'Lopez', '555-1122', 'Pasaje del Norte 789', 'ana.lopez@example.com', '1990-11-30', 'Cliente VIP', GETDATE(), 'A'),
+('Luis', 'Martinez', '555-3344', 'Camino Real 1011', 'luis.martinez@example.com', '1975-07-18', 'Cliente nuevo', GETDATE(), 'A');
+
+-- Insertar productos
+INSERT INTO productos (nombre_producto, descripcion, precio, stock, cod_estado)
+VALUES
+('Maquillaje', 'Set de maquillaje profesional', 30.00, 80, 'A'),
+('Crema facial', 'Crema hidratante para el rostro', 25.00, 100, 'A'),
+('Esmalte de uñas', 'Esmalte de uñas de larga duración', 8.00, 200, 'A');
+
+-- Insertar servicios
+INSERT INTO servicios (nombre_servicio, descripcion, precio, cod_estado)
+VALUES
+('Finalizado', 'Corte de cabello con finalizado', 50.00, 'A'),
+('Finalizado y Asesoría', 'Corte de cabello con finalizado y asesoría', 60.00, 'A'),
+('Tratamiento y Asesoría', 'Corte con tratamiento y asesoría', 80.00, 'A');
+ 
+ 
+-- Insertar roles
+INSERT INTO roles (id_rol, nombre_rol)
+VALUES
+(1, 'Administrativo'),
+(2, 'Administrador');
+
+INSERT INTO proveedores (id_proveedor, razon_social, telefono, cuit_cuil, correo_electronico, direccion, cod_estado)
+VALUES 
+(1, 'Proveedor Uno S.A.', '123456789', '20-12345678-9', 'contacto1@proveedoruno.com', 'Calle Falsa 123', 'A'),
+(2, 'Proveedor Dos SRL', '987654321', '27-87654321-6', 'contacto2@proveedordos.com', 'Avenida Siempreviva 742', 'A'),
+(3, 'Proveedor Tres Inc.', '456123789', '30-45612378-3', 'contacto3@proveedortres.com', 'Boulevard Industrial 456', 'B');
+
+
+-- Insertar usuarios
+INSERT INTO usuarios (nombre_usuario, contraseña, email, fecha_registro, id_rol, cod_estado)
+VALUES
+('admin_user', 'password123', 'admin@example.com', GETDATE(), 2, 'A'),
+('admin_user2', 'password456', 'admin2@example.com', GETDATE(), 2, 'A'),
+('admin_user3', 'password789', 'admin3@example.com', GETDATE(), 2, 'A');
+ 
+
+-- Insertar empleados
+INSERT INTO empleados (nombre, apellido, telefono, direccion, email, fecha_contratacion, cod_estado)
+VALUES 
+('Juan', 'Perez', '123456789', 'Calle Falsa 123', 'juan.perez@example.com', '2024-05-22', 'A'),
+('Ana', 'Gomez', '987654321', 'Avenida Siempre Viva 742', 'ana.gomez@example.com', '2024-05-21', 'A');
+
+--------------------------------------------PROCEDURES-------------------------------------------
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_insertar_venta]    Script Date: 10/6/2024 17:05:06 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_insertar_venta]
+    @id_cliente INT,
+    @id_empleado INT,
+    @total DECIMAL(10, 2),
+    @id_venta INT OUTPUT
+AS
+BEGIN
+        -- Insertar en la tabla ventas
+        INSERT INTO ventas (id_cliente, fecha_venta, id_empleado, total)
+        VALUES (@id_cliente, GETDATE(), @id_empleado, @total);
+
+        -- Obtener el id_venta generado
+        SET @id_venta = SCOPE_IDENTITY();
+   
+END;
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_insertar_venta_producto]    Script Date: 10/6/2024 17:05:32 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_insertar_venta_producto]
+    @id_venta INT, 
+    @id_producto INT, 
+	@cantidad_prod INT, 
+    @total_producto DECIMAL(10, 2)
+AS
+BEGIN 
+        -- Insertar en la tabla ventas y obtener el id_venta generado
+        INSERT INTO  detalle_venta_productos(id_venta, id_producto, cantidad, monto_producto)
+        VALUES (@id_venta, @id_producto, @cantidad_prod, @total_producto);
+
+		UPDATE productos
+        SET stock = stock - @cantidad_prod
+        WHERE id_producto = @id_producto;
+		 
+END;
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_insertar_venta_servicio]    Script Date: 10/6/2024 17:05:39 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_insertar_venta_servicio]
+    @id_venta INT, 
+    @id_servicio INT, 
+	@cantidad_serv INT, 
+    @total_servicio DECIMAL(10, 2)
+AS
+BEGIN 
+        -- Insertar en la tabla ventas y obtener el id_venta generado
+        INSERT INTO  detalle_venta_servicios(id_venta, id_servicio, cantidad, monto_servicio)
+        VALUES (@id_venta, @id_servicio, @cantidad_serv, @total_servicio);
+		 
+END;
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_obtener_clientes]    Script Date: 10/6/2024 17:05:46 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_obtener_clientes]
+AS
+BEGIN
+    SELECT 
+        id_cliente,
+        nombre,
+        apellido,
+        telefono,
+        direccion,
+        email,
+        fecha_nacimiento,
+        info_relevante,
+        fecha_registro
+    FROM 
+        clientes
+	WHERE 
+		cod_estado = 'A'
+	
+END;
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_obtener_empleados]    Script Date: 10/6/2024 17:05:52 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_obtener_empleados]
+AS
+BEGIN
+    SELECT 
+        id_empleado,
+        nombre,
+        apellido,
+        telefono,
+        direccion,
+        email,
+        fecha_contratacion
+    FROM 
+        empleados
+	WHERE 
+		cod_estado = 'A'
+END;
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerProductos]    Script Date: 10/6/2024 17:05:57 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[sp_ObtenerProductos]
+AS
+BEGIN
+    SELECT
+		pro.descripcion,
+		pro.id_producto,
+		pro.nombre_producto,
+		pro.precio,
+		pro.stock	
+	FROM 
+		productos pro
+	WHERE 
+		pro.cod_estado = 'A'
+END
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerServicios]    Script Date: 10/6/2024 17:06:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[sp_ObtenerServicios]
+AS
+BEGIN
+    SELECT 
+		ser.descripcion,
+		ser.nombre_servicio,
+		ser.precio,
+		ser.servicio_id
+	FROM 	
+		servicios ser
+	WHERE 
+		ser.cod_estado = 'A'
+END
+GO
+
+USE [Peluqueria]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_ValidarUsuario]    Script Date: 10/6/2024 17:06:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[sp_ValidarUsuario]
+    @nombre_usuario VARCHAR(50),
+    @contraseña VARCHAR(50),
+    @existe INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM usuarios WHERE nombre_usuario = @nombre_usuario AND contraseña = @contraseña)
+        BEGIN
+        SET @existe = 1;
+        UPDATE usuarios 
+        SET ult_logeo_fecha = GETDATE()
+        WHERE usuarios.nombre_usuario = @nombre_usuario 
+    END
+    ELSE
+    BEGIN
+        SET @existe = 0;
+    END
+END
+GO
+
+ 
+--------------------------------------
+ 
+Modulo
+Compras / Proveedores
+cerramos el menu y volvemos al home 
+
+
+roles
+Administrador / recepcionista 
+
+--turnos
+
+
+
+--recepcionista
+genera turnos
+gestionar clientes
+
+--Estado 
+A (alta)
+B (baja)
+
+--modulo compras
+(registrar comprar )
+formulario (para comprar)
+necesitamos productos, proveedores, "el precio al que compramos lo ingresamos a mano"
+ahi mismo actualizamos el stock en productos.
+ 
+
+
+
+

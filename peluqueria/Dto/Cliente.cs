@@ -11,5 +11,6 @@
         public DateTime FechaNacimiento { get; set; }
         public string InfoRelevante { get; set; }
         public DateTime FechaRegistro { get; set; }
+        public string cod_estado { get; set; }
     }
 }

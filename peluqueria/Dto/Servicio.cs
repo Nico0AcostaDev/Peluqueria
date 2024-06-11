@@ -1,12 +1,12 @@
 ﻿namespace peluqueria.Dto
 {
-    public class ProductoCarrito
+    public class Servicio
     {
-        public string NombreProducto { get; set; }
+        public string NombreServicio { get; set; }
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
         public int Cantidad { get; set; }
-        public int IdProducto { get; set; }
-
+        public int idServicios { get; set; }
+        public string cod_estado { get; set; }
     }
 }
